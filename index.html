@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html style="height:100%; margin:0;">
+<head>
+  <title>Interactive Map</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" crossorigin=""></script>
+  <style>
+    body { margin:0; }
+    #map { width: 100%; height: 100vh; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <script>
+    var map = L.map('map', {
+      center: [0, 0], 
+      zoom: 2, 
+      minZoom: 0,
+      maxZoom: 7,
+      crs: L.CRS.Simple 
+    });
+
+
+    L.tileLayer('https://eldenring.wiki.fextralife.com/file/Elden-Ring/map-50be4728-3907-4f33-8857-7f063e0d24eb/map-tiles.4/{z}/{x}/{y}.jpg', {
+      minZoom: 0,
+      maxZoom: 7,
+      continuousWorld: false,
+      noWrap: true,
+    }).addTo(map);
+
+
+    var mapSW = [0, 35000];
+    var mapNE = [35000, 0];
+    map.setMaxBounds(new L.LatLngBounds(map.unproject(mapSW, map.getMaxZoom()), map.unproject(mapNE, map.getMaxZoom())));
+
+  var marker = L.marker([0, 0]).addTo(map);
+  marker.bindPopup("<b>Hello world!</b><br>I am a popup.");
+
+  </script>
+</body>
+</html>
