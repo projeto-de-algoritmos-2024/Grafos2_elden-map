@@ -28,7 +28,7 @@ export const categories = [
   { id: "Waygates", name: "Waygates", loadDefault: false },
   { id: "Weapons", name: "Weapons", loadDefault: false },
 ];
-var items = [
+export var items = [
   {
     id: 9829,
     category: "Summoning Pool",
