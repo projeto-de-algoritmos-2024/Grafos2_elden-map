@@ -6,11 +6,16 @@ export function generateMST(graph) {
 }
 
 
+function calculateWeight(node1, node2) {
+  
+  const node1X = node1.x;
+  const node1Y = node1.y;
+  const node2X = node2.x;
+  const node2Y = node2.y;
+  const distance = Math.sqrt(Math.pow(node1X - node2X, 2) + Math.pow(node1Y - node2Y, 2));
+  return distance;
 
-[[1,23,234,324,123], [], []]
-2313123
-
-
+}
 class Graph {
   constructor() {
     this.adjacencyList = {};
@@ -24,20 +29,20 @@ class Graph {
 
 
   addEdge(node1, node2) {
-    if (!this.adjacencyList[node1]) {
-      this.addNode(node1);
-    }
-    if (!this.adjacencyList[node2]) {
-      this.addNode(node2);
-    }
-    this.adjacencyList[node1].push(node2);
-    this.adjacencyList[node2].push(node1); 
+
+    const weight = calculateWeight(node1, node2);
+
+    this.adjacencyList[node1.id].push({
+      node: node2.id,
+      weight: weight
+    });
+
   }
 
 
   printGraph() {
     for (let node in this.adjacencyList) {
-      console.log(`${node} -> ${this.adjacencyList[node].join(', ')}`);
+      console.log(`${node} -> ${this.adjacencyList[node].map(edge => `${edge.node} (${edge.weight})`).join(', ')}`);
     }
   }
 
@@ -63,11 +68,7 @@ export function connectItems(data) {
             return;
           }
 
-          if (graph.adjacencyList[item.id].includes(item2.id)) {
-            return;
-          }
-
-          graph.addEdge(item.id, item2.id);
+          graph.addEdge(item, item2);
         }
       });
 
