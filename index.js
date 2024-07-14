@@ -1,5 +1,5 @@
 import { categories, items } from './data.js';
-import { connectItems } from './graphFunctions.js';
+import { connectItems, prim } from './graphFunctions.js';
 
 var map = L.map('map', {
   center: [0, 0],
@@ -42,4 +42,8 @@ function addMarkers() {
 addMarkers();
 
 
-connectItems(items);
+const graph = connectItems(items);
+
+const { mstCost, mstEdges } = prim(graph);
+console.log("Custo total do MST:", mstCost);
+console.log("Arestas do MST:", mstEdges);
