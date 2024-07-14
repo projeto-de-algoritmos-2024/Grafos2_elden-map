@@ -22,6 +22,12 @@ var mapSW = [0, 35000];
 var mapNE = [35000, 0];
 map.setMaxBounds(new L.LatLngBounds(map.unproject(mapSW, map.getMaxZoom()), map.unproject(mapNE, map.getMaxZoom()),));
 
+const customIcon = L.icon({
+  iconUrl: './grace.png',
+  iconSize: [32, 32],
+  iconAnchor: [16, 32], 
+  popupAnchor: [0, -32]
+});
 
 function addMarkers() {
   items.forEach(item => {
@@ -34,7 +40,7 @@ function addMarkers() {
     let y = Number(item.y);
 
     const latLng = L.latLng(x, y );
-    const marker = new L.Marker(latLng, { title: item.name }).addTo(map);
+    const marker = new L.Marker(latLng, { title: item.name, icon: customIcon }).addTo(map);
     marker.bindPopup(`<b>${item.name}</b><br>${item.description}`);
   });
 }
