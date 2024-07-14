@@ -81,13 +81,13 @@ isEmpty() {
 export function prim(graph) {
   const startNode = 457; // Spawn inicial do jogo
   const minHeap = new MinHeap();
-  minHeap.push([0, startNode]);
+  minHeap.push([0, startNode, startNode]);
   const visited = Array(graph.length).fill(false);
   let mstCost = 0;
   const mstEdges = [];
 
   while (!minHeap.isEmpty()) {
-      const [cost, u] = minHeap.pop();
+      const [cost, u , v] = minHeap.pop();
 
       if (visited[u]) continue;
 
@@ -95,12 +95,12 @@ export function prim(graph) {
       mstCost += cost;
 
       if (cost !== 0) {
-          mstEdges.push([u, cost]);
+          mstEdges.push([v, u, cost]);
       }
  
       for (const edge of graph.adjacencyList[u]) {
           if (!visited[edge.node]) {
-              minHeap.push([edge.weight, edge.node]);
+              minHeap.push([edge.weight, edge.node, u]);
           }
       }
   }

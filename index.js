@@ -47,3 +47,14 @@ const graph = connectItems(items);
 const { mstCost, mstEdges } = prim(graph);
 console.log("Custo total do MST:", mstCost);
 console.log("Arestas do MST:", mstEdges);
+
+for (let edge of mstEdges) {
+  console.log(edge);
+  console.log(edge[0]);
+  const node1 = items.find(item => item.id === edge[0]);
+  const node2 = items.find(item => item.id === edge[1]);
+  const latLng1 = L.latLng(node1.x, node1.y);
+  const latLng2 = L.latLng(node2.x, node2.y);
+  const polyline = L.polyline([latLng1, latLng2], { color: 'red' }).addTo(map);
+  polyline.bindPopup(`Custo: ${edge.weight}`);
+}
