@@ -22,12 +22,6 @@ var mapSW = [0, 35000];
 var mapNE = [35000, 0];
 map.setMaxBounds(new L.LatLngBounds(map.unproject(mapSW, map.getMaxZoom()), map.unproject(mapNE, map.getMaxZoom()),));
 
-const customIcon = L.icon({
-  iconUrl: './grace.png',
-  iconSize: [32, 32],
-  iconAnchor: [16, 32],
-  popupAnchor: [0, -32]
-});
 
 function addMarkers(category) {
   map.eachLayer(function (layer) {
@@ -35,11 +29,18 @@ function addMarkers(category) {
       map.removeLayer(layer);
     }
   });
-
+  
   items.forEach(item => {
     if (item.category !== category) {
       return;
     }
+
+    const customIcon = L.icon({
+      iconUrl: "https://eldenring.wiki.fextralife.com"+item.image,
+      iconSize: [item.imageSize, item.imageSize],
+      iconAnchor: [16, 32],
+      popupAnchor: [0, -32]
+    });
 
     let x = Number(item.x);
     let y = Number(item.y);
