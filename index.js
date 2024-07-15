@@ -25,42 +25,67 @@ map.setMaxBounds(new L.LatLngBounds(map.unproject(mapSW, map.getMaxZoom()), map.
 const customIcon = L.icon({
   iconUrl: './grace.png',
   iconSize: [32, 32],
-  iconAnchor: [16, 32], 
+  iconAnchor: [16, 32],
   popupAnchor: [0, -32]
 });
 
-function addMarkers() {
-  items.forEach(item => {
+function addMarkers(category) {
+  map.eachLayer(function (layer) {
+    if (layer instanceof L.Marker || layer instanceof L.Polyline) {
+      map.removeLayer(layer);
+    }
+  });
 
-    if ( item.category !== "Site of Grace" )  {
+  items.forEach(item => {
+    if (item.category !== category) {
       return;
     }
 
     let x = Number(item.x);
     let y = Number(item.y);
 
-    const latLng = L.latLng(x, y );
+    const latLng = L.latLng(x, y);
     const marker = new L.Marker(latLng, { title: item.name, icon: customIcon }).addTo(map);
     marker.bindPopup(`<b>${item.name}</b><br>${item.description}`);
   });
+
+  const graph = connectItems(items, category);
+  const { mstCost, mstEdges } = prim(graph);
+  console.log("Custo total do MST:", mstCost);
+  console.log("Arestas do MST:", mstEdges);
+
+  for (let edge of mstEdges) {
+    const node1 = items.find(item => item.id === edge[0]);
+    const node2 = items.find(item => item.id === edge[1]);
+    const latLng1 = L.latLng(node1.x, node1.y);
+    const latLng2 = L.latLng(node2.x, node2.y);
+    const polyline = L.polyline([latLng1, latLng2], { color: 'red' }).addTo(map);
+    polyline.bindPopup(`Custo: ${edge.weight}`);
+  }
 }
 
-addMarkers();
+function populateCategories() {
+  const categorySelect = document.getElementById('categorySelect');
+  let defaultCategory = null;
 
+  categories.forEach(category => {
+    const option = document.createElement('option');
+    option.value = category.name;
+    option.textContent = category.name;
+    categorySelect.appendChild(option);
 
-const graph = connectItems(items);
+    if (category.loadDefault) {
+      defaultCategory = category.name;
+    }
+  });
 
-const { mstCost, mstEdges } = prim(graph);
-console.log("Custo total do MST:", mstCost);
-console.log("Arestas do MST:", mstEdges);
-
-for (let edge of mstEdges) {
-  console.log(edge);
-  console.log(edge[0]);
-  const node1 = items.find(item => item.id === edge[0]);
-  const node2 = items.find(item => item.id === edge[1]);
-  const latLng1 = L.latLng(node1.x, node1.y);
-  const latLng2 = L.latLng(node2.x, node2.y);
-  const polyline = L.polyline([latLng1, latLng2], { color: 'red' }).addTo(map);
-  polyline.bindPopup(`Custo: ${edge.weight}`);
+  return defaultCategory;
 }
+
+document.getElementById('updateMap').addEventListener('click', () => {
+  const selectedCategory = document.getElementById('categorySelect').value;
+  addMarkers(selectedCategory);
+});
+
+const defaultCategory = populateCategories();
+addMarkers(defaultCategory);

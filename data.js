@@ -10,7 +10,7 @@ export const categories = [
     name: "Locations",
     image:
       "https://diablo4.wiki.fextralife.com/file/Diablo-4/side-testicon-0.png",
-    loadDefault: true,
+    loadDefault: false,
   },
   { id: "Maps", name: "Maps", loadDefault: false },
   { id: "Materials", name: "Materials", loadDefault: false },
@@ -18,7 +18,7 @@ export const categories = [
   { id: "NPCInvader", name: "NPC Invader", loadDefault: false },
   { id: "Remembrance", name: "Remembrance", loadDefault: false },
   { id: "Shields", name: "Shields", loadDefault: false },
-  { id: "SiteofGrace", name: "Site of Grace", loadDefault: false },
+  { id: "SiteofGrace", name: "Site of Grace", loadDefault: true },
   { id: "Spells", name: "Spells", loadDefault: false },
   { id: "SpiritAshes", name: "Spirit Ashes", loadDefault: false },
   { id: "Spiritsprings", name: "Spiritsprings", loadDefault: false },

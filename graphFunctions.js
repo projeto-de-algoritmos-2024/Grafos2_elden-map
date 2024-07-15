@@ -1,3 +1,40 @@
+class Graph {
+  constructor() {
+    this.adjacencyList = {};
+    this.startNode = undefined;
+  }
+
+  addNode(node) {
+    if (!this.adjacencyList[node]) {
+
+      if (this.startNode === undefined) {
+        this.startNode = node;
+      }
+
+      this.adjacencyList[node] = [];
+    }
+  }
+
+
+  addEdge(node1, node2) {
+
+    const weight = calculateWeight(node1, node2);
+
+    this.adjacencyList[node1.id].push({
+      node: node2.id,
+      weight: weight
+    });
+
+  }
+
+
+  printGraph() {
+    for (let node in this.adjacencyList) {
+      console.log(`${node} -> ${this.adjacencyList[node].map(edge => `${edge.node} (${edge.weight})`).join(', ')}`);
+    }
+  }
+
+}
 
 
 class MinHeap {
@@ -79,7 +116,7 @@ isEmpty() {
 }
 
 export function prim(graph) {
-  const startNode = 457; // Spawn inicial do jogo
+  const startNode = graph.startNode;
   const minHeap = new MinHeap();
   minHeap.push([0, startNode, startNode]);
   const visited = Array(graph.length).fill(false);
@@ -97,7 +134,7 @@ export function prim(graph) {
       if (cost !== 0) {
           mstEdges.push([v, u, cost]);
       }
- 
+      
       for (const edge of graph.adjacencyList[u]) {
           if (!visited[edge.node]) {
               minHeap.push([edge.weight, edge.node, u]);
@@ -118,53 +155,22 @@ function calculateWeight(node1, node2) {
   return distance;
 
 }
-class Graph {
-  constructor() {
-    this.adjacencyList = {};
-  }
 
-  addNode(node) {
-    if (!this.adjacencyList[node]) {
-      this.adjacencyList[node] = [];
-    }
-  }
-
-
-  addEdge(node1, node2) {
-
-    const weight = calculateWeight(node1, node2);
-
-    this.adjacencyList[node1.id].push({
-      node: node2.id,
-      weight: weight
-    });
-
-  }
-
-
-  printGraph() {
-    for (let node in this.adjacencyList) {
-      console.log(`${node} -> ${this.adjacencyList[node].map(edge => `${edge.node} (${edge.weight})`).join(', ')}`);
-    }
-  }
-
-}
-
-export function connectItems(data) {
+export function connectItems(data, category) {
 
   const graph = new Graph();
 
   data.forEach(item => {
-    if (item.category === "Site of Grace") {
+    if (item.category === category) {
       graph.addNode(item.id);
     }
   });
 
   data.forEach(item => {
-    if (item.category === "Site of Grace") {
+    if (item.category === category) {
       
       data.forEach(item2 => {
-        if (item2.category === "Site of Grace") {
+        if (item2.category === category) {
 
           if (item.id === item2.id) {
             return;
