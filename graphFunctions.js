@@ -124,20 +124,20 @@ export function prim(graph) {
   const mstEdges = [];
 
   while (!minHeap.isEmpty()) {
-      const [cost, u , v] = minHeap.pop();
+      const [cost, destiny , origin] = minHeap.pop();
 
-      if (visited[u]) continue;
+      if (visited[destiny]) continue;
 
-      visited[u] = true;
+      visited[destiny] = true;
       mstCost += cost;
 
       if (cost !== 0) {
-          mstEdges.push([v, u, cost]);
+          mstEdges.push([origin, destiny, cost]);
       }
       
-      for (const edge of graph.adjacencyList[u]) {
+      for (const edge of graph.adjacencyList[destiny]) {
           if (!visited[edge.node]) {
-              minHeap.push([edge.weight, edge.node, u]);
+              minHeap.push([edge.weight, edge.node, destiny]);
           }
       }
   }
