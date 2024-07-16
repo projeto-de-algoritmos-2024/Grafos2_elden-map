@@ -16,7 +16,18 @@ O Elden Map é uma aplicação interativa desenvolvida para a disciplina de Graf
 
 ## Screenshots
 
-### inserir
+### mapa exibindo MST das graças ( pontos de save do jogo ):
+![eldengraces](https://github.com/user-attachments/assets/a7e8d71b-50cf-412a-994f-bae4a6a04d74)
+
+### mapa exibindo MST das principais regiões do jogo:
+![eldenplaces](https://github.com/user-attachments/assets/28e9705b-9f6f-496a-a3bc-05994ee2f129)
+
+### mapa exibindo MST de chaves escondidas pelo jogo:
+![eldenkeys](https://github.com/user-attachments/assets/209631b3-0797-4449-a1d4-36625dd18c70)
+
+## Vídeo
+
+[![Ver video](https://img.youtube.com/vi/OVsm_pfziLM/0.jpg)](https://www.youtube.com/watch?v=OVsm_pfziLM)
 
 ## Instalação
 
@@ -75,7 +86,7 @@ A aplicação utiliza o algoritmo de Prim para calcular a árvore geradora míni
 
 #### Estrutura de Dados do Grafo
 
-A classe `Graph` é usada para representar o grafo, onde cada nó é um "Site of Grace" e cada aresta é uma conexão entre esses pontos com um peso correspondente à distância euclidiana entre eles.
+A classe `Graph` é usada para representar o grafo, onde cada nó é um ponto de interesse do jogo e cada aresta é uma conexão entre esses pontos com um peso correspondente à distância euclidiana entre eles.
 
 ```javascript
 class Graph {
